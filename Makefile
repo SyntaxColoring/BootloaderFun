@@ -20,9 +20,15 @@ fun.o: fun.s
 clean:
 	$(RM) *.o *.bin *.elf
 
-debug-qemu:
+.PHONY: qemu
+qemu: fun.bin
+	$(QEMU) -drive file=fun.bin,format=raw
+
+.PHONY: debug-qemu
+debug-qemu: fun.bin
 	$(QEMU) -s -S -drive file=fun.bin,format=raw
 
+.PHONY: debug-gdb
 debug-gdb: fun.elf
 	$(GDB) fun.elf -x debug_with_qemu.gdb
 
